@@ -379,6 +379,7 @@ describe('markdown-link-check', function () {
                 { link: '#potato', statusCode: 404, err: null, status: 'dead' },
                 { link: '#tomato', statusCode: 404, err: null, status: 'dead' },
                 { link: '#header-with-special-char-', statusCode: 404, err: null, status: 'dead' },
+                { link: '#header-with-german-umlaut-äöü', statusCode: 404, err: null, status: 'dead' },
             ]);
             done();
         });
