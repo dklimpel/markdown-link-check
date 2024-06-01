@@ -27,3 +27,5 @@ Test [header with image](#header-with-special-char-)
 ## Header with german umlaut äöü
 
 Link to [german umlaut öäü](#header-with-german-umlaut-äöü)
+
+Link to [german umlaut öäü manual encoded](#header-with-german-umlaut-%C3%A4%C3%B6%C3%BC)
