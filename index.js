@@ -50,8 +50,18 @@ function extractSections(markdown) {
     const sectionTitles = markdown.match(/^#+ .*$/gm) || [];
 
     const sections = sectionTitles.map(section =>
-        section.replace(/^\W+/, '').replace(/\W+$/, '').replace(/[^\w\s-]+/g, '').replace(/\s+/g, '-').toLowerCase()
+        // remove:
+        //   spaces and "#" at beginning
+        //   spaces at end
+        //   all characters except word characters, spaces and "-"
+        // replace spaces with "-"
+        section.replace(/^[\s#]+/, '').replace(/\s+$/, '').replace(/[^\w\s-]+/g, '').replace(/\s/g, '-').toLowerCase()
     );
+
+    // debug
+    for (var section2 of sections) {
+        console.log("1: " + section2);
+    }
 
     var uniq = {};
     for (var section of sections) {

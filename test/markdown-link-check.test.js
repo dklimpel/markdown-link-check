@@ -378,9 +378,12 @@ describe('markdown-link-check', function () {
                 { link: '#bar', statusCode: 200, err: null, status: 'alive' },
                 { link: '#potato', statusCode: 404, err: null, status: 'dead' },
                 { link: '#tomato', statusCode: 404, err: null, status: 'dead' },
-                { link: '#header-with-special-char-', statusCode: 404, err: null, status: 'dead' },
+                { link: '#header-with-special-char-at-end-', statusCode: 200, err: null, status: 'alive' },
+                { link: '#header-with-multiple-special-chars-at-end-', statusCode: 200, err: null, status: 'alive' },
+                { link: '#header-with-special--char', statusCode: 200, err: null, status: 'alive' },
+                { link: '#header-with-multiple-special--chars', statusCode: 200, err: null, status: 'alive' },
                 { link: '#header-with-german-umlaut-äöü', statusCode: 404, err: null, status: 'dead' },
-                { link: '#header-with-german-umlaut-%C3%A4%C3%B6%C3%BC', statusCode: 404, err: null, status: 'dead' },
+                { link: '#header-with-german-umlaut-äöü', statusCode: 404, err: null, status: 'dead' },
             ]);
             done();
         });
