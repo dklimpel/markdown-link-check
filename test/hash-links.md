@@ -23,3 +23,7 @@ There is an anchor named [Tomato](#tomato).
 ## Header with special char ✨
 
 Test [header with image](#header-with-special-char-)
+
+## Header with german umlaut äöü
+
+Link to [german umlaut öäü]
