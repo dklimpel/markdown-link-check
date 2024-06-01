@@ -382,8 +382,11 @@ describe('markdown-link-check', function () {
                 { link: '#header-with-multiple-special-chars-at-end-', statusCode: 200, err: null, status: 'alive' },
                 { link: '#header-with-special--char', statusCode: 200, err: null, status: 'alive' },
                 { link: '#header-with-multiple-special--chars', statusCode: 200, err: null, status: 'alive' },
-                { link: '#header-with-german-umlaut-äöü', statusCode: 404, err: null, status: 'dead' },
-                { link: '#header-with-german-umlaut-äöü', statusCode: 404, err: null, status: 'dead' },
+                { link: '#header-with-german-umlaut-%C3%B6', statusCode: 200, err: null, status: 'alive' },
+                { link: '#header-with-german-umlaut-%C3%B6-manual-encoded-link', statusCode: 200, err: null, status: 'alive' },
+                { link: 'https://github.com/tcort/markdown-link-check', statusCode: 200, err: null, status: 'alive' },
+                { link: '#heading-with-a-link', statusCode: 200, err: null, status: 'alive' },
+                { link: '#heading-with-an-anchor-link', statusCode: 200, err: null, status: 'alive' },
             ]);
             done();
         });

@@ -36,8 +36,18 @@ Test [header with image](#header-with-special--char)
 
 Test [header with multiple images](#header-with-multiple-special--chars)
 
-## Header with German umlaut äöü
+## Header with German umlaut Ö
 
-Link to [German umlaut öäü](#header-with-german-umlaut-äöü)
+Link to [German umlaut Ö](#header-with-german-umlaut-ö)
 
-Link to [German umlaut öäü manual encoded](#header-with-german-umlaut-%C3%A4%C3%B6%C3%BC)
+## Header with German umlaut ö manual encoded link
+
+Link to [German umlaut ö manual encoded in link](#header-with-german-umlaut-%C3%B6-manual-encoded-link)
+
+### [Heading with a link](https://github.com/tcort/markdown-link-check)
+
+An [anchor link](#heading-with-a-link) to a heading.
+
+### [Heading with an anchor link](#foo)
+
+An [anchor link](#heading-with-an-anchor-link) to a heading.
