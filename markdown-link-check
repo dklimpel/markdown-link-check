@@ -102,23 +102,22 @@ function getInputs() {
                             parsed.pathname = parsed.pathname.substr(0, parsed.pathname.lastIndexOf('/') + 1);
                         }
                         baseUrl = parsed.toString();
-                        console.log('baseUrl: ' + baseUrl)
                         inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
                     } catch (err) { /* ignore error */
                         }
                 } else {
                     // local file or directory
-                    const stats = fs.statSync(filenameOrUrl);
-                    if (stats.isDirectory()){
-                        let files = loadAllMarkdownFiles(filenameOrUrl)
-                        for (let file of files) {
-                            filenameForOutput = file;
-                            baseUrl = 'file://' + path.dirname(path.resolve(file));
-                            console.log('baseUrl: ' + baseUrl)
-                            inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
-                        }
+                    let files = [];
+
+                    if (fs.statSync(filenameOrUrl).isDirectory()){
+                        files = loadAllMarkdownFiles(filenameOrUrl)
                     } else {
-                        const resolved = path.resolve(filenameOrUrl);
+                        files = [filenameOrUrl]
+                    }
+
+                    for (let file of files) {
+                        filenameForOutput = file;
+                        const resolved = path.resolve(filenameForOutput);
 
                         // skip paths given if it includes a path to ignore.
                         // todo: allow ignore paths to be glob or regex instead of just includes?
@@ -133,8 +132,7 @@ function getInputs() {
                             baseUrl = 'file://' + path.dirname(resolved);
                         }
 
-                        stream = fs.createReadStream(filenameOrUrl);
-                        console.log('baseUrl: ' + baseUrl)
+                        stream = fs.createReadStream(filenameForOutput);
                         inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
                     }
                 }
