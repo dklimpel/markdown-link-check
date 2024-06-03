@@ -31,6 +31,23 @@ function commaSeparatedCodesList(value, dummyPrevious) {
     });
 }
 
+
+/**
+ * Load all files in the rootFolder and all subfolders that end with .md
+ */
+function loadAllMarkdownFiles(rootFolder = '.') {
+    const files = [];
+    fs.readdirSync(rootFolder).forEach(file => {
+        const fullPath = path.join(rootFolder, file);
+        if (fs.lstatSync(fullPath).isDirectory()) {
+            files.push(...loadAllMarkdownFiles(fullPath));
+        } else if (fullPath.endsWith('.md')) {
+            files.push(fullPath);
+        }
+    });
+    return files;
+}
+
 function getInputs() {
     const inputs = [];
 
@@ -70,6 +87,7 @@ function getInputs() {
             for (const filenameOrUrl of filenamesOrUrls) {
                 filenameForOutput = filenameOrUrl;
                 let baseUrl = '';
+                // remote file
                 if (/https?:/.test(filenameOrUrl)) {
                     stream = needle.get(
                         filenameOrUrl, { agent: new ProxyAgent(), use_proxy_from_env_var: false }
@@ -84,34 +102,39 @@ function getInputs() {
                             parsed.pathname = parsed.pathname.substr(0, parsed.pathname.lastIndexOf('/') + 1);
                         }
                         baseUrl = parsed.toString();
+                        inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
                     } catch (err) { /* ignore error */
                         }
                 } else {
+                    // local file or directory
                     const stats = fs.statSync(filenameOrUrl);
                     if (stats.isDirectory()){
-                        console.error(chalk.red('\nERROR: ' + filenameOrUrl + ' is a directory! Please provide a valid filename as an argument.'));
-                        process.exit(1);
-                    }
+                        let files = loadAllMarkdownFiles(filenameOrUrl)
+                        for (let file of files) {
+                            filenameForOutput = file;
+                            baseUrl = 'file://' + path.dirname(path.resolve(file));
+                            inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
+                        }
+                    } else {
+                        const resolved = path.resolve(filenameOrUrl);
 
-                    const resolved = path.resolve(filenameOrUrl);
+                        // skip paths given if it includes a path to ignore.
+                        // todo: allow ignore paths to be glob or regex instead of just includes?
+                        if (ignore && ignore.some((ignorePath) => resolved.includes(ignorePath))) {
+                            continue;
+                        }
 
-                    // skip paths given if it includes a path to ignore.
-                    // todo: allow ignore paths to be glob or regex instead of just includes?
-                    if (ignore && ignore.some((ignorePath) => resolved.includes(ignorePath))) {
-                        continue;
-                    }
+                        if (process.platform === 'win32') {
+                            baseUrl = 'file://' + path.dirname(resolved).replace(/\\/g, '/');
+                        }
+                        else {
+                            baseUrl = 'file://' + path.dirname(resolved);
+                        }
 
-                    if (process.platform === 'win32') {
-                        baseUrl = 'file://' + path.dirname(resolved).replace(/\\/g, '/');
+                        stream = fs.createReadStream(filenameOrUrl);
+                        inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
                     }
-                    else {
-                        baseUrl = 'file://' + path.dirname(resolved);
-                    }
-
-                    stream = fs.createReadStream(filenameOrUrl);
                 }
-
-                inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
             }
         }
     ).parse(process.argv);
