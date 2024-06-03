@@ -102,6 +102,7 @@ function getInputs() {
                             parsed.pathname = parsed.pathname.substr(0, parsed.pathname.lastIndexOf('/') + 1);
                         }
                         baseUrl = parsed.toString();
+                        console.log('baseUrl: ' + baseUrl)
                         inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
                     } catch (err) { /* ignore error */
                         }
@@ -113,6 +114,7 @@ function getInputs() {
                         for (let file of files) {
                             filenameForOutput = file;
                             baseUrl = 'file://' + path.dirname(path.resolve(file));
+                            console.log('baseUrl: ' + baseUrl)
                             inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
                         }
                     } else {
@@ -132,6 +134,7 @@ function getInputs() {
                         }
 
                         stream = fs.createReadStream(filenameOrUrl);
+                        console.log('baseUrl: ' + baseUrl)
                         inputs.push(new Input(filenameForOutput, stream, {baseUrl: baseUrl}));
                     }
                 }
