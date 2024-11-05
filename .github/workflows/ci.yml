@@ -45,7 +45,7 @@ jobs:
           - 22
 
    env:
-     TEST_DIR: 'link_check'
+      TEST_DIR: 'link_check'
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
