@@ -56,7 +56,7 @@ jobs:
         echo "Branch: ${{ github.ref }}"
         echo "SHA: ${{ github.sha }}"
     - name: prepare
-      run:
+      run: |
         mkdir link_check
         cd link_check/
         npm install ../
