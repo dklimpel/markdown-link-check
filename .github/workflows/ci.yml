@@ -61,4 +61,4 @@ jobs:
         cd link_check/
         npm install ../
         touch test.md
-    - run: npx markdown-link-check test.md
+    - run: npx markdown-link-check link_check/test.md
