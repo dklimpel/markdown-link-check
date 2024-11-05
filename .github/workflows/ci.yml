@@ -55,6 +55,6 @@ jobs:
     - run: npm ci
     - run: |
         ./markdown-link-check --version
-        echo "Branch: ${{ github.head_ref }}"
+        echo "Branch: ${{ github.ref }}"
         echo "SHA: ${{ github.sha }}"
     - run: ./markdown-link-check test/file.md
