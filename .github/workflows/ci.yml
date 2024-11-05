@@ -52,9 +52,13 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: npm
 
-    - run: npm ci
     - run: |
-        ./markdown-link-check --version
         echo "Branch: ${{ github.ref }}"
         echo "SHA: ${{ github.sha }}"
-    - run: ./markdown-link-check test/file.md
+    - name: prepare
+      run:
+        mkdir link_check
+        cd link_check/
+        npm install ../
+        touch test.md
+    - run: npx markdown-link-check test.md
